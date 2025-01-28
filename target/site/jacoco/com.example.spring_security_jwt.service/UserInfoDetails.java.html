@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserInfoDetails.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">spring-security-jwt</a> &gt; <a href="index.source.html" class="el_package">com.example.spring_security_jwt.service</a> &gt; <span class="el_source">UserInfoDetails.java</span></div><h1>UserInfoDetails.java</h1><pre class="source lang-java linenums">package com.example.spring_security_jwt.service;
+
+import com.example.spring_security_jwt.entity.UserInfo;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
+
+public class UserInfoDetails implements UserDetails {
+
+<span class="nc" id="L17">    String userName=null;</span>
+<span class="nc" id="L18">    String password=null;</span>
+//private added
+     private List&lt;GrantedAuthority&gt; authorities;
+
+
+    public UserInfoDetails(UserInfo userInfo)
+<span class="nc" id="L24">    {</span>
+<span class="nc" id="L25">        userName =userInfo.getName();</span>
+<span class="nc" id="L26">        password = userInfo.getPassword();</span>
+<span class="nc" id="L27">        authorities= Arrays.stream(userInfo.getRoles().split(&quot;,&quot;)).map(SimpleGrantedAuthority::new).collect(Collectors.toList());</span>
+<span class="nc" id="L28">    }</span>
+
+
+    @Override
+    public Collection&lt;? extends GrantedAuthority&gt; getAuthorities() {
+<span class="nc" id="L33">        return authorities;</span>
+    }
+
+    @Override
+    public String getPassword() {
+<span class="nc" id="L38">        return password;</span>
+    }
+
+    @Override
+    public String getUsername() {
+<span class="nc" id="L43">        return userName;</span>
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+<span class="nc" id="L48">        return true;</span>
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+<span class="nc" id="L53">        return true;</span>
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+<span class="nc" id="L58">        return true;</span>
+    }
+
+    @Override
+    public boolean isEnabled() {
+<span class="nc" id="L63">        return true;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

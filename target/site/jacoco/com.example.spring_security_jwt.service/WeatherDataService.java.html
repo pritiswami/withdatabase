@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WeatherDataService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">spring-security-jwt</a> &gt; <a href="index.source.html" class="el_package">com.example.spring_security_jwt.service</a> &gt; <span class="el_source">WeatherDataService.java</span></div><h1>WeatherDataService.java</h1><pre class="source lang-java linenums">package com.example.spring_security_jwt.service;
+
+
+import com.example.spring_security_jwt.dto.WeatherDTO;
+import com.example.spring_security_jwt.dto.WeatherResponseDTO;
+import com.example.spring_security_jwt.entity.WeatherData;
+import com.example.spring_security_jwt.repository.WeatherRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+@Service
+public class WeatherDataService {
+
+    private WeatherRepo weatherRepo;
+
+    @Value(&quot;${api.key}&quot;)
+    private String apikey;
+
+    @Autowired
+<span class="nc" id="L22">    public WeatherDataService(WeatherRepo weatherRepo) {</span>
+<span class="nc" id="L23">        this.weatherRepo = weatherRepo;</span>
+<span class="nc" id="L24">    }</span>
+
+
+    public WeatherData getWeatherData(String city){
+<span class="nc" id="L28">        WeatherDTO whetherDTO = new WeatherDTO();</span>
+<span class="nc" id="L29">        WeatherData weatherData = new WeatherData();</span>
+<span class="nc" id="L30">        String url =&quot;http://api.openweathermap.org/data/2.5/weather?q=&quot; + city + &quot;&amp;appId=&quot; + apikey + &quot;&amp;units=metric&quot;;</span>
+<span class="nc" id="L31">        RestTemplate restTemplate=new RestTemplate();</span>
+<span class="nc" id="L32">        WeatherResponseDTO weatherResp = restTemplate.getForObject(url, WeatherResponseDTO.class);</span>
+
+        //all three variable data set into Entity
+<span class="nc" id="L35">        weatherData.setTemp(weatherResp.getMain().getTemp());</span>
+<span class="nc" id="L36">        weatherData.setPressure(weatherResp.getMain().getPressure());</span>
+<span class="nc" id="L37">        weatherData.setHumidity(weatherResp.getMain().getHumidity());</span>
+
+<span class="nc" id="L39">        return weatherData;</span>
+    }
+
+    public WeatherData saveWeatherData(String city) {
+<span class="nc" id="L43">        WeatherData weatherData = getWeatherData(city);</span>
+<span class="nc" id="L44">        return weatherRepo.save(weatherData); // Save to the database</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

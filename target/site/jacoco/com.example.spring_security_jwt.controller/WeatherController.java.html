@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WeatherController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">spring-security-jwt</a> &gt; <a href="index.source.html" class="el_package">com.example.spring_security_jwt.controller</a> &gt; <span class="el_source">WeatherController.java</span></div><h1>WeatherController.java</h1><pre class="source lang-java linenums">package com.example.spring_security_jwt.controller;
+
+
+import com.example.spring_security_jwt.entity.WeatherData;
+import com.example.spring_security_jwt.service.WeatherDataService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class WeatherController {
+
+    private WeatherDataService weatherDataService;
+
+    @Autowired
+<span class="nc" id="L20">    public WeatherController(WeatherDataService weatherDataService) {</span>
+<span class="nc" id="L21">        this.weatherDataService = weatherDataService;</span>
+<span class="nc" id="L22">    }</span>
+
+    @GetMapping(&quot;/abc&quot;)
+    public String getIndex(){
+<span class="nc" id="L26">        return &quot;index&quot;;</span>
+    }
+
+    @GetMapping(&quot;/weather&quot;)
+    public ResponseEntity&lt;WeatherData&gt; getWeather(@RequestParam(&quot;city&quot;) String city, Model model) {
+<span class="nc" id="L31">        WeatherData response = weatherDataService.getWeatherData(city);</span>
+<span class="nc" id="L32">        return ResponseEntity.ok(response);</span>
+    }
+
+    @PostMapping(&quot;/save&quot;)
+    public WeatherData saveWeather(@RequestParam String city) {
+<span class="nc" id="L37">        return weatherDataService.saveWeatherData(city);</span>
+    }
+
+
+//
+//        if(weatherResponse !=null){
+//            model.addAttribute(&quot;city&quot;,weatherResponse.getName());
+//            model.addAttribute(&quot;country&quot;,weatherResponse.getSys().getCountry());
+//            model.addAttribute(&quot;weatherDescription&quot;,weatherResponse.getWeather().get(0).getDescription());
+//            model.addAttribute(&quot;temperature&quot;,weatherResponse.getMain().getTemp());
+//            model.addAttribute(&quot;humidity&quot;,weatherResponse.getMain().getHumidity());
+//            model.addAttribute(&quot;windspeed&quot;,weatherResponse.getWind().getSpeed());
+//            String weatherIcon = &quot;wi wi-owm-&quot; +weatherResponse.getWeather().get(0).getId();
+//            model.addAttribute(&quot;weatherIcon&quot;,weatherIcon);
+//        } else {
+//            model.addAttribute(&quot;error&quot;,&quot;City not found&quot;);
+//        }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
